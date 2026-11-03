@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <defs>
+    <linearGradient id="bgGrad192" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#1e1b4b" />
+      <stop offset="100%" stop-color="#022c22" />
+    </linearGradient>
+    <linearGradient id="accentGrad192" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" />
+      <stop offset="50%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+  </defs>
+  <rect width="192" height="192" rx="48" fill="url(#bgGrad192)" />
+  <rect width="188" height="188" x="2" y="2" rx="46" fill="none" stroke="url(#accentGrad192)" stroke-width="2" stroke-opacity="0.5" />
+  <circle cx="96" cy="96" r="60" fill="#0f172a" fill-opacity="0.8" stroke="url(#accentGrad192)" stroke-width="4" />
+  <path d="M 80 65 C 105 50, 120 75, 96 96 C 72 115, 90 140, 115 125" fill="none" stroke="url(#accentGrad192)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+  <polygon points="106,88 126,100 106,112" fill="#10b981" />
+  <text x="96" y="168" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="18" fill="#f8fafc" letter-spacing="3">SMC</text>
+</svg>
+
