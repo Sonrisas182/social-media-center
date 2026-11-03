@@ -166,3 +166,47 @@ En la pestaña de Clientes y modal de edición:
 2. **Respetar tipos de datos en Supabase:** El campo `recargo_urgencia` en `smc_trabajos` es estrictamente `numeric` (`0`, `25`, `50`), no string.
 3. **Mantener el enfoque Mobile-First:** Todas las modificaciones de UI deben probarse con la barra de navegación inferior móvil (`pb-safe`) y el FAB flotante en cuenta.
 4. **Respetar la identidad de marca de Sonri:** Smaily Social Media opera en Mendoza (Zona Este) y combina el rol de agencia de redes con productora audiovisual de eventos y hosteo. Toda plantilla y comunicación debe reflejar este tono cercano, profesional y enfocado en la rentabilidad de los combos.
+
+
+
+---
+
+## 8. ACTUALIZACIÓN A VERSIÓN 2.0 (FASE 2 - IMPLEMENTACIONES CRÍTICAS)
+
+### 🔒 1. Seguridad, Limpieza y Persistencia de PIN
+- **Bugfix de Persistencia en localStorage:** Corregida la sincronización de PIN entre sesiones. Se unificaron las claves `smc_user_pin_v2` y `smc_user_pin`, asegurando que el PIN personalizado nunca retorne a `"1234"` tras recargar o cerrar el navegador.
+- **Enmascaramiento en Bloqueo:** Eliminada toda pista visual `(Default: 1234)`. Se incorporó un input enmascarado `type="password"` (`#lockPinInput`) sincronizado con los 4 indicadores luminosos y el teclado físico/virtual, garantizando confidencialidad absoluta en entornos compartidos.
+- **Eliminación Total del Botón Seed:** Removida por completo la tarjeta y el botón de carga inicial del DOM en Ajustes para evitar reinicios o sobreescrituras accidentales de la base de datos de producción.
+- **Lanzador Directo de WhatsApp en Liquidación:** Arreglado el botón de liquidación para que abra automáticamente `https://wa.me/?text=...` en una nueva pestaña/aplicación nativa de WhatsApp, además de respaldar el texto copiado al portapapeles.
+
+### 📈 2. Control de Inflación y Aumentos Trimestrales
+- **Campo "Fecha de Último Aumento":** Integrado en el perfil extendido de cada cliente (`smc_client_profiles[id].fecha_ultimo_aumento`).
+- **Alerta Visual Automática (90 Días):** Si transcurrieron 3 meses o más desde el último ajuste, la tarjeta del cliente destaca una insignia amarilla: `🟡 Aumento Pendiente (X meses sin ajuste)`.
+- **Modal de Ajuste Rápido (`inflationModal`):**
+  - Botones de cálculo inmediato: `+15%`, `+20%`, `+25%`, `+30%` y campo de nuevo fee mensual editable.
+  - Generador dinámico de mensaje profesional y cordial para WhatsApp explicando los costos operativos.
+  - Botón *"✅ Aplicar Nuevo Valor y Actualizar Fecha a Hoy"*: actualiza `valor_abono` directamente en Supabase y resetea la fecha de aumento al día actual en un solo clic.
+
+### ⚡ 3. Liquidación Flexible (Mensual o Semanal)
+- **Selector de Período en Liquidación:** Alternador `[ 📅 Mes Completo | ⚡ Solo esta Semana (7 días) ]`.
+- **Filtro Semanal:** Filtra dinámicamente los extras y cortesías comprendidos en los últimos 7 días con prorrateo de abono (`abono / 4`).
+- **Adaptación Integral:** Modifica los títulos, subtotales, texto de WhatsApp y encabezado del PDF corporativo según la periodicidad elegida.
+
+### ⏳ 4. Presupuestos Emitidos con Vencimiento a 7 Días
+- **Historial de Cotizaciones (`smc_presupuestos_emitidos`):** Guarda la propuesta con fecha de emisión y vencimiento automático a 7 días.
+- **Semáforo de Vigencia:** Badges reactivos `🟢 Vigente (Vence en X días)` vs `🔴 Vencido (Venció hace X días)`.
+- **Conversión Directa:** Botón *"Aprobar (Pasa a Trabajos)"* que inserta automáticamente cada ítem del presupuesto en Supabase `smc_trabajos` bajo el cliente correspondiente (o lo crea si era prospecto) y marca la cotización como aprobada.
+- **Reenvío con Urgencia Comercial:** Mensaje de WhatsApp que recuerda al cliente la fecha límite para congelar tarifas y agenda.
+
+### 🎥 5. Agenda Simple de Rodajes & Eventos (Prevención de Superposición)
+- **Módulo de Agenda Cronológica (`tab-agenda` & Widget en Dashboard):** Lista ordenada por fecha y hora con insignias relativas (`🔴 ¡HOY!`, `🟡 Mañana`, `🔵 En X días`, `⚪ Pasado`).
+- **Campos del Rodaje:** Cliente, Fecha, Hora, Lugar (con enlace directo a Google Maps), Costo de Viaje/Viáticos ($) y Plan de Grabación.
+- **Detector de Colisiones:** Al seleccionar una fecha ya ocupada por otro evento, despliega una alerta roja destacada: `⚠️ Ya tienes un evento registrado este día: [Cliente] en [Lugar] a las [Hora] hs.`, exigiendo confirmación explícita para guardar.
+
+### 💰 6. Rentabilidad Neta y Gastos Fijos
+- **Parámetros Financieros en Ajustes:**
+  - *"Mi Valor Hora Sugerido ($)"*: Tarifa de referencia profesional.
+  - *"Gastos Fijos del Mes ($)"*: Monto único para herramientas, internet, impuestos y suscripciones (`smc_finanzas_config`).
+- **Hero Card en Dashboard:**
+  - Métrica de **"Ganancia Limpia Estimada"** = `Total Proyectado − Gastos Fijos del Mes` en tipografía esmeralda de alto contraste.
+  - Comparativa con el valor hora sugerido para evaluar la rentabilidad real de la agencia en Mendoza.

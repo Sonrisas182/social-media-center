@@ -107,14 +107,19 @@
       <h1 class="text-2xl font-bold tracking-tight text-white mb-1">SOCIAL MEDIA CENTER</h1>
       <p class="text-xs uppercase tracking-widest text-indigo-400 font-semibold mb-6">Smaily Social Media</p>
       
-      <p id="lockMessage" class="text-sm text-slate-400 mb-6">Ingresá tu PIN de seguridad (Default: 1234)</p>
+      <p id="lockMessage" class="text-sm text-slate-400 mb-4">Ingresá tu PIN de seguridad</p>
 
-      <!-- Pin Dots Display -->
-      <div id="pinDotsContainer" class="flex items-center justify-center gap-4 mb-8">
-        <div class="pin-dot w-4 h-4 rounded-full border-2 border-slate-600 bg-transparent transition-all duration-200"></div>
-        <div class="pin-dot w-4 h-4 rounded-full border-2 border-slate-600 bg-transparent transition-all duration-200"></div>
-        <div class="pin-dot w-4 h-4 rounded-full border-2 border-slate-600 bg-transparent transition-all duration-200"></div>
-        <div class="pin-dot w-4 h-4 rounded-full border-2 border-slate-600 bg-transparent transition-all duration-200"></div>
+      <!-- Enmasked Password Input & Dots Display -->
+      <div class="flex flex-col items-center gap-3 mb-6">
+        <input type="password" id="lockPinInput" maxlength="4" readonly inputmode="numeric" placeholder="••••"
+               class="w-36 text-center text-3xl tracking-[0.4em] font-mono py-2 px-3 rounded-2xl bg-slate-900 border border-slate-800 text-emerald-400 shadow-inner pointer-events-none select-none">
+        
+        <div id="pinDotsContainer" class="flex items-center justify-center gap-3">
+          <div class="pin-dot w-3.5 h-3.5 rounded-full border-2 border-slate-600 bg-transparent transition-all duration-200"></div>
+          <div class="pin-dot w-3.5 h-3.5 rounded-full border-2 border-slate-600 bg-transparent transition-all duration-200"></div>
+          <div class="pin-dot w-3.5 h-3.5 rounded-full border-2 border-slate-600 bg-transparent transition-all duration-200"></div>
+          <div class="pin-dot w-3.5 h-3.5 rounded-full border-2 border-slate-600 bg-transparent transition-all duration-200"></div>
+        </div>
       </div>
 
       <!-- Numeric Keypad Grid -->
@@ -217,14 +222,17 @@
           <button class="nav-tab px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-900" data-tab="jobs">
             <i data-lucide="check-square" class="w-4 h-4"></i> Trabajos y Pedidos
           </button>
+          <button class="nav-tab px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-900" data-tab="agenda">
+            <i data-lucide="calendar" class="w-4 h-4"></i> Agenda Rodajes
+          </button>
           <button class="nav-tab px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-900" data-tab="quotes">
             <i data-lucide="calculator" class="w-4 h-4"></i> Cotizador & Combos
           </button>
           <button class="nav-tab px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-900" data-tab="services">
-            <i data-lucide="layers" class="w-4 h-4"></i> Catálogo de Servicios
+            <i data-lucide="layers" class="w-4 h-4"></i> Catálogo
           </button>
           <button class="nav-tab px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-900" data-tab="settings">
-            <i data-lucide="settings" class="w-4 h-4"></i> Ajustes y Seed
+            <i data-lucide="settings" class="w-4 h-4"></i> Ajustes & Finanzas
           </button>
         </nav>
       </div>
@@ -269,6 +277,38 @@
             <i data-lucide="calculator" class="w-4 h-4"></i>
             <span>Abrir Cotizador de Combos</span>
           </button>
+        </div>
+
+        <!-- 0. RENTABILIDAD & GANANCIA LIMPIA ESTIMADA (PROYECTADO - GASTOS FIJOS) -->
+        <div class="rounded-2xl bg-gradient-to-r from-emerald-950/70 via-slate-900 to-indigo-950/50 border-2 border-emerald-500/40 p-5 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center flex-shrink-0 shadow-lg shadow-emerald-500/20">
+              <i data-lucide="dollar-sign" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <div class="text-[11px] uppercase tracking-wider font-extrabold text-emerald-400 flex items-center gap-1.5">
+                <span>Rentabilidad Neta Mensual</span>
+                <span class="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-semibold border border-emerald-500/30">En Mano</span>
+              </div>
+              <div class="text-2xl md:text-3xl font-black text-emerald-400 tracking-tight flex items-baseline gap-2">
+                <span id="statGananciaLimpia">$0</span>
+                <span class="text-xs text-slate-300 font-semibold">Ganancia Limpia Estimada</span>
+              </div>
+              <div class="text-[11px] text-slate-400 mt-0.5">
+                Total Proyectado (<span id="statBreakdownTotal" class="text-white font-medium">$0</span>) − Gastos Fijos del Mes (<span id="statBreakdownGastos" class="text-rose-300 font-medium">$0</span>)
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 self-end sm:self-center">
+            <div class="bg-slate-950/80 border border-slate-800 rounded-xl px-3 py-1.5 text-right">
+              <div class="text-[10px] text-slate-400">Mi Valor Hora Sugerido</div>
+              <div id="statValorHoraRef" class="text-xs font-bold text-indigo-300">$10.000 / hs</div>
+            </div>
+            <button onclick="App.switchTab('settings')" title="Configurar Gastos Fijos y Valor Hora" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold border border-slate-700 transition-all flex items-center gap-1.5">
+              <i data-lucide="sliders" class="w-3.5 h-3.5"></i>
+              <span>Configurar</span>
+            </button>
+          </div>
         </div>
 
         <!-- 4 Tarjetas Financieras -->
@@ -410,6 +450,34 @@
             </div>
           </div>
 
+        </div>
+
+        <!-- Widget: Próximos Rodajes y Eventos en Agenda -->
+        <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-5 shadow-lg space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center">
+                <i data-lucide="video" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-white">Próximos Rodajes & Coberturas</h3>
+                <p class="text-xs text-slate-400">Coordinación en locación con clientes</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="App.openNewEventModal()" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold text-xs flex items-center gap-1.5 shadow-md shadow-purple-600/30 hover:brightness-110 active:scale-95 transition-all">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                <span>+ Agendar Rodaje</span>
+              </button>
+              <button onclick="App.switchTab('agenda')" class="text-xs text-indigo-400 hover:text-indigo-300 font-medium flex items-center gap-1">
+                <span>Ver Agenda Completa</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          </div>
+          <div id="dashUpcomingEventsList" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <!-- Rendered via JS -->
+          </div>
         </div>
 
       </section>
@@ -853,10 +921,96 @@
 
         </div>
 
+        <!-- SECCIÓN: PRESUPUESTOS EMITIDOS & CONTROL DE VENCIMIENTOS (7 DÍAS) -->
+        <div class="mt-8 pt-8 border-t border-slate-800 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h2 class="text-xl font-extrabold text-white tracking-tight flex items-center gap-2">
+                <i data-lucide="clipboard-list" class="w-5 h-5 text-indigo-400"></i>
+                <span>Presupuestos Emitidos</span>
+                <span id="issuedQuotesBadgeCount" class="text-xs px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-semibold">0</span>
+              </h2>
+              <p class="text-xs text-slate-400">Control de validez a 7 días para generar urgencia comercial y botón directo para convertir presupuestos aprobados a trabajos.</p>
+            </div>
+            <button type="button" onclick="App.saveIssuedQuote()" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-bold text-xs shadow-lg shadow-emerald-600/30 hover:brightness-110 active:scale-95 transition-all">
+              <i data-lucide="save" class="w-4 h-4"></i>
+              <span>Guardar Cotización Actual (Vence en 7 días)</span>
+            </button>
+          </div>
+
+          <!-- Quotes List Grid -->
+          <div id="issuedQuotesListContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+
       </section>
 
       <!-- ========================================== -->
-      <!-- TAB 5: AJUSTES, SEED Y CONFIGURACIÓN       -->
+      <!-- TAB 4.5: AGENDA DE RODAJES Y EVENTOS       -->
+      <!-- ========================================== -->
+      <section id="tab-agenda" class="tab-content hidden space-y-6 max-w-5xl mx-auto">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h1 class="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+              <i data-lucide="calendar" class="w-7 h-7 text-indigo-400"></i>
+              <span>Próximos Rodajes y Eventos</span>
+            </h1>
+            <p class="text-xs text-slate-400">Cronograma de filmaciones, coberturas presenciales, viáticos y alertas de superposición.</p>
+          </div>
+          <button onclick="App.openNewEventModal()" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-xs shadow-lg shadow-indigo-600/30 hover:brightness-110 active:scale-95 transition-all">
+            <i data-lucide="plus-circle" class="w-4 h-4"></i>
+            <span>+ Cargar Nuevo Rodaje / Evento</span>
+          </button>
+        </div>
+
+        <!-- Metric Badges: Active Shoots & Travel Costs -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-4 shadow-lg flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center">
+              <i data-lucide="clapperboard" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="text-[11px] text-slate-400 uppercase font-semibold">Rodajes Activos</div>
+              <div id="agendaCountPending" class="text-xl font-black text-white">0</div>
+            </div>
+          </div>
+          <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-4 shadow-lg flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+              <i data-lucide="car" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="text-[11px] text-slate-400 uppercase font-semibold">Viáticos Acumulados</div>
+              <div id="agendaTotalTravelCost" class="text-xl font-black text-emerald-400">$0</div>
+            </div>
+          </div>
+          <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-4 shadow-lg flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center">
+              <i data-lucide="map-pin" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="text-[11px] text-slate-400 uppercase font-semibold">Próxima Salida</div>
+              <div id="agendaNextShootInfo" class="text-xs font-bold text-purple-300">Ninguna programada</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="flex items-center gap-2 border-b border-slate-800/80 pb-3">
+          <span class="text-xs text-slate-400 font-medium">Filtrar:</span>
+          <button type="button" onclick="App.setAgendaFilter('Todos')" id="agendaFilterTodos" class="px-3 py-1 rounded-lg text-xs font-semibold bg-indigo-600 text-white">Todos</button>
+          <button type="button" onclick="App.setAgendaFilter('Pendiente')" id="agendaFilterPendiente" class="px-3 py-1 rounded-lg text-xs font-medium bg-slate-900 text-slate-400 hover:text-white">Próximos</button>
+          <button type="button" onclick="App.setAgendaFilter('Realizado')" id="agendaFilterRealizado" class="px-3 py-1 rounded-lg text-xs font-medium bg-slate-900 text-slate-400 hover:text-white">Realizados</button>
+        </div>
+
+        <!-- Agenda List Container -->
+        <div id="agendaEventsContainer" class="space-y-3">
+          <!-- Rendered via JS -->
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- TAB 5: AJUSTES, FINANZAS Y SEGURIDAD       -->
       <!-- ========================================== -->
       <section id="tab-settings" class="tab-content hidden space-y-6 max-w-4xl mx-auto">
         
@@ -865,25 +1019,35 @@
           <p class="text-xs text-slate-400">Seguridad, carga inicial de datos base y estado de Supabase.</p>
         </div>
 
-        <!-- SEED DATA CARD (PROMINENT BUTTON) -->
-        <div class="rounded-2xl bg-gradient-to-br from-indigo-950/40 via-slate-900 to-slate-900 border-2 border-indigo-500/40 p-6 shadow-xl relative overflow-hidden">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div class="space-y-1">
-              <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 text-[11px] font-semibold border border-indigo-500/30">
-                <i data-lucide="database" class="w-3.5 h-3.5"></i>
-                <span>Base de Datos Inicial</span>
-              </div>
-              <h3 class="text-lg font-bold text-white">Cargar Datos Iniciales (Seed)</h3>
-              <p class="text-xs text-slate-300 leading-relaxed max-w-xl">
-                Inyecta automáticamente en tu Supabase todos los servicios base (Gestión y Redes, Diseño, Audiovisual, Conducción, Estrategia) y los clientes de la agencia (Al 100 Restobar, Ponete a Punto, CLU, Ápice, Nonnas, Juventud FAA, Mario Morón).
-              </p>
+        <!-- RENTABILIDAD Y CONFIGURACIÓN FINANCIERA -->
+        <div class="rounded-2xl bg-gradient-to-br from-indigo-950/40 via-slate-900 to-slate-900 border-2 border-indigo-500/40 p-6 shadow-xl space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+              <i data-lucide="trending-up" class="w-5 h-5"></i>
             </div>
-            <button id="btnSeedDatabase" onclick="App.seedDatabase()" class="flex-shrink-0 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-bold text-sm shadow-xl shadow-emerald-600/30 hover:brightness-110 active:scale-95 transition-all">
-              <i data-lucide="play" class="w-4 h-4 fill-white"></i>
-              <span>Cargar Datos Iniciales (Seed)</span>
-            </button>
+            <div>
+              <h3 class="text-base font-bold text-white">Rentabilidad y Parámetros Financieros</h3>
+              <p class="text-xs text-slate-400">Configurá tus gastos fijos y el valor hora sugerido para calcular la Ganancia Limpia en el Dashboard.</p>
+            </div>
           </div>
-          <div id="seedStatusMsg" class="mt-4 text-xs font-medium text-slate-400 hidden"></div>
+
+          <form id="finanzasForm" onsubmit="App.handleSaveFinanzas(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            <div>
+              <label class="block text-xs text-slate-300 font-semibold mb-1">Mi Valor Hora Sugerido ($)</label>
+              <input type="number" step="500" min="0" id="settingValorHora" placeholder="10000" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-indigo-500">
+              <p class="text-[10px] text-slate-500 mt-1">Tarifa de referencia por hora de trabajo / rodaje.</p>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-300 font-semibold mb-1">Gastos Fijos del Mes ($)</label>
+              <input type="number" step="1000" min="0" id="settingGastosFijos" placeholder="120000" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm font-bold text-rose-300 focus:outline-none focus:border-rose-500">
+              <p class="text-[10px] text-slate-500 mt-1">Monto único mensual: internet, Adobe CC, Canva Pro, monotributo, amortizaciones.</p>
+            </div>
+            <div class="sm:col-span-2 flex items-center justify-end">
+              <button type="submit" class="py-2.5 px-5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-md shadow-indigo-600/30 active:scale-95 transition-all">
+                Guardar Parámetros Financieros
+              </button>
+            </div>
+          </form>
         </div>
 
         <!-- Security & PIN Management -->
@@ -967,13 +1131,18 @@
           <span>Clientes</span>
         </button>
 
-        <button class="mobile-nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-slate-400 font-medium" data-tab="jobs">
-          <i data-lucide="check-square" class="w-5 h-5"></i>
+        <button class="mobile-nav-btn flex flex-col items-center gap-1 py-1 px-1.5 rounded-xl text-slate-400 font-medium" data-tab="jobs">
+          <i data-lucide="check-square" class="w-4 h-4 sm:w-5 sm:h-5"></i>
           <span>Trabajos</span>
         </button>
 
-        <button class="mobile-nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-slate-400 font-medium" data-tab="quotes">
-          <i data-lucide="calculator" class="w-5 h-5"></i>
+        <button class="mobile-nav-btn flex flex-col items-center gap-1 py-1 px-1.5 rounded-xl text-slate-400 font-medium" data-tab="agenda">
+          <i data-lucide="calendar" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+          <span>Agenda</span>
+        </button>
+
+        <button class="mobile-nav-btn flex flex-col items-center gap-1 py-1 px-1.5 rounded-xl text-slate-400 font-medium" data-tab="quotes">
+          <i data-lucide="calculator" class="w-4 h-4 sm:w-5 sm:h-5"></i>
           <span>Cotizador</span>
         </button>
 
@@ -1236,6 +1405,11 @@
             <label class="block text-xs font-semibold text-slate-300 mb-1">Valor Abono Mensual ($)</label>
             <input type="number" step="1000" min="0" id="clientFormAbono" required placeholder="0" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
           </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Fecha de Último Aumento</label>
+            <input type="date" id="clientFormFechaAumento" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+            <p class="text-[10px] text-slate-500 mt-0.5">Control de inflación: si pasaron 3 meses (90 días), el sistema alertará para actualizar el fee.</p>
+          </div>
         </div>
 
         <!-- Ecosistema Digital y Redes Sociales Trabajadas -->
@@ -1424,14 +1598,18 @@
             <i data-lucide="file-text" class="w-4 h-4"></i>
           </div>
           <div>
-            <h3 class="text-sm font-bold text-white">Liquidación Mensual de Servicios</h3>
+            <h3 id="settlementModalTitle" class="text-sm font-bold text-white">Liquidación de Servicios</h3>
             <p id="settlementHeaderSub" class="text-[11px] text-slate-400">Desglose para cliente</p>
           </div>
         </div>
         <div class="flex items-center gap-2">
-          <button onclick="App.copySettlementWhatsApp()" title="Copiar Formato WhatsApp" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-all shadow-md">
+          <button onclick="App.sendSettlementWhatsApp()" title="Enviar a WhatsApp" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-all shadow-md">
             <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
-            <span class="hidden sm:inline">Copiar WhatsApp</span>
+            <span>Enviar a WhatsApp</span>
+          </button>
+          <button onclick="App.copySettlementWhatsAppOnly()" title="Copiar Formato WhatsApp" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1.5 border border-slate-700 transition-all">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Copiar</span>
           </button>
           <button onclick="App.downloadSettlementPDF()" title="Descargar PDF" class="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-all shadow-md">
             <i data-lucide="download" class="w-3.5 h-3.5"></i>
@@ -1439,6 +1617,22 @@
           </button>
           <button onclick="App.closeSettlementModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors">
             <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Period Selector Toggle (Mes Completo vs Solo esta Semana) -->
+      <div class="px-6 py-3 bg-slate-950/80 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="text-xs text-slate-300 font-semibold flex items-center gap-1.5">
+          <i data-lucide="filter" class="w-3.5 h-3.5 text-indigo-400"></i>
+          <span>Período a Liquidar:</span>
+        </div>
+        <div class="inline-flex rounded-xl bg-slate-900 p-1 border border-slate-800">
+          <button type="button" id="settlementBtnMonth" onclick="App.setSettlementPeriod('month')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-indigo-600 text-white shadow-sm">
+            📅 Mes Completo
+          </button>
+          <button type="button" id="settlementBtnWeek" onclick="App.setSettlementPeriod('week')" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-all">
+            ⚡ Solo esta Semana (7 días)
           </button>
         </div>
       </div>
@@ -1528,6 +1722,175 @@
     </div>
   </div>
 
+  <!-- MODAL: AJUSTE TRIMESTRAL DE INFLACIÓN & MENSAJE WHATSAPP -->
+  <div id="inflationModal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden my-6">
+      
+      <div class="px-6 py-4 border-b border-slate-800/80 flex items-center justify-between bg-slate-950/60">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center">
+            <i data-lucide="trending-up" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-white">Ajuste Trimestral por Inflación</h3>
+            <p id="inflationModalClientSub" class="text-[11px] text-slate-400">Actualización de fee y aviso por WhatsApp</p>
+          </div>
+        </div>
+        <button onclick="App.closeInflationModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-4">
+        <input type="hidden" id="inflationClientId" value="">
+
+        <!-- Current Info Card -->
+        <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-between">
+          <div>
+            <span class="text-[10px] uppercase font-bold text-slate-500 block">Abono Actual</span>
+            <div id="inflationCurrentFee" class="text-lg font-black text-white">$0</div>
+          </div>
+          <div class="text-right">
+            <span class="text-[10px] uppercase font-bold text-slate-500 block">Último Aumento</span>
+            <div id="inflationLastDate" class="text-xs font-semibold text-amber-300">No registrado</div>
+          </div>
+        </div>
+
+        <!-- Quick % Buttons -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-2">Seleccionar % de Ajuste Sugerido:</label>
+          <div class="grid grid-cols-4 gap-2">
+            <button type="button" onclick="App.applyInflationPct(15)" class="py-2 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 hover:border-indigo-500 text-xs font-bold text-slate-200 transition-all">+15%</button>
+            <button type="button" onclick="App.applyInflationPct(20)" class="py-2 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 hover:border-indigo-500 text-xs font-bold text-slate-200 transition-all">+20%</button>
+            <button type="button" onclick="App.applyInflationPct(25)" class="py-2 rounded-xl bg-indigo-600/30 hover:bg-indigo-600/40 border border-indigo-500 text-xs font-bold text-indigo-300 transition-all">+25%</button>
+            <button type="button" onclick="App.applyInflationPct(30)" class="py-2 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 hover:border-indigo-500 text-xs font-bold text-slate-200 transition-all">+30%</button>
+          </div>
+        </div>
+
+        <!-- Proposed New Fee Input -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Nuevo Valor del Fee Mensual ($) *</label>
+          <input type="number" step="1000" id="inflationNewFeeInput" oninput="App.updateInflationMessagePreview()" class="w-full bg-slate-950 border border-emerald-500/40 rounded-xl px-3 py-2 text-base font-bold text-emerald-400 focus:outline-none focus:border-emerald-500">
+        </div>
+
+        <!-- Message Preview Box -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Mensaje Profesional para WhatsApp:</label>
+          <textarea id="inflationMessagePreview" rows="6" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 leading-relaxed font-sans focus:outline-none focus:border-indigo-500"></textarea>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="space-y-2 pt-2">
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" onclick="App.sendInflationWhatsApp()" class="py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-600/30 transition-all">
+              <i data-lucide="message-circle" class="w-4 h-4"></i>
+              <span>Enviar a WhatsApp</span>
+            </button>
+            <button type="button" onclick="App.copyInflationMessage()" class="py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs flex items-center justify-center gap-1.5 border border-slate-700 transition-all">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>Copiar Texto</span>
+            </button>
+          </div>
+
+          <button type="button" onclick="App.applyInflationUpdateToClient()" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:brightness-110 text-white font-bold text-xs shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 transition-all">
+            <i data-lucide="check-circle" class="w-4 h-4"></i>
+            <span>✅ Aplicar Nuevo Valor y Actualizar Fecha a Hoy</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: AGENDAR RODAJE / EVENTO CON DETECCIÓN DE SUPERPOSICIÓN -->
+  <div id="eventModal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden my-6">
+      
+      <div class="px-6 py-4 border-b border-slate-800/80 flex items-center justify-between bg-slate-950/60">
+        <h3 id="eventModalTitle" class="text-base font-bold text-white flex items-center gap-2">
+          <i data-lucide="calendar" class="w-5 h-5 text-indigo-400"></i>
+          <span>Agendar Rodaje / Evento</span>
+        </h3>
+        <button onclick="App.closeEventModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="eventForm" onsubmit="App.handleSaveEvent(event)" class="p-6 space-y-4">
+        <input type="hidden" id="eventEditId" value="">
+
+        <!-- Cliente / Proyecto -->
+        <div>
+          <label class="block text-xs text-slate-400 font-medium mb-1">Cliente / Marca *</label>
+          <select id="eventFormClienteSelect" onchange="App.onEventClienteChange()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 mb-2">
+            <option value="">-- Seleccionar cliente habitual o escribir nuevo --</option>
+          </select>
+          <input type="text" id="eventFormClienteNombre" required placeholder="Nombre del cliente o evento (ej: Bodega Vistalba, Maxi Segura)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+        </div>
+
+        <!-- Fecha y Hora -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs text-slate-400 font-medium mb-1">Fecha del Rodaje *</label>
+            <input type="date" id="eventFormFecha" required onchange="App.checkEventCollision()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+          </div>
+          <div>
+            <label class="block text-xs text-slate-400 font-medium mb-1">Hora de Inicio</label>
+            <input type="time" id="eventFormHora" value="16:00" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+          </div>
+        </div>
+
+        <!-- Collision Alert Banner (Dynamic) -->
+        <div id="eventCollisionBox" class="hidden rounded-xl bg-rose-500/15 border-2 border-rose-500/40 p-3.5 space-y-2">
+          <div class="flex items-start gap-2 text-rose-300 text-xs font-semibold">
+            <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-400 flex-shrink-0 mt-0.5"></i>
+            <span id="eventCollisionText">⚠️ Ya tienes un evento registrado este día.</span>
+          </div>
+          <label class="flex items-center gap-2 text-[11px] text-slate-300 cursor-pointer pt-1 border-t border-rose-500/20">
+            <input type="checkbox" id="eventCollisionConfirmCheckbox" class="w-4 h-4 rounded text-rose-600 bg-slate-950 border-rose-500 focus:ring-0">
+            <span>Deseo confirmar y guardar este rodaje el mismo día de todos modos</span>
+          </label>
+        </div>
+
+        <!-- Lugar / Locación -->
+        <div>
+          <label class="block text-xs text-slate-400 font-medium mb-1">Lugar / Locación</label>
+          <input type="text" id="eventFormLugar" placeholder="Ej: Salón Da Vinci, Junín / Local Al 100, San Martín" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+        </div>
+
+        <!-- Costo de Viaje / Viáticos -->
+        <div>
+          <label class="block text-xs text-slate-400 font-medium mb-1">Costo de Viaje / Viáticos ($)</label>
+          <input type="number" step="500" min="0" id="eventFormCostoViaje" placeholder="0" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+          <p class="text-[10px] text-slate-500 mt-0.5">Combustible, peajes o traslado estimado dentro de Mendoza.</p>
+        </div>
+
+        <!-- Descripción / Requerimientos de la Grabación -->
+        <div>
+          <label class="block text-xs text-slate-400 font-medium mb-1">Detalle / Plan de Rodaje</label>
+          <textarea id="eventFormDescripcion" rows="2" placeholder="Ej: Grabación con gimbal de 3 recetas, tomas lentas de coctelería y fotos de cartas." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500"></textarea>
+        </div>
+
+        <!-- Estado -->
+        <div>
+          <label class="block text-xs text-slate-400 font-medium mb-1">Estado</label>
+          <select id="eventFormEstado" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
+            <option value="Pendiente">Pendiente (Por filmar)</option>
+            <option value="Realizado">Realizado (Filmado)</option>
+            <option value="Cancelado">Cancelado</option>
+          </select>
+        </div>
+
+        <div class="pt-3 border-t border-slate-800 flex items-center justify-end gap-3">
+          <button type="button" onclick="App.closeEventModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition-all">Cancelar</button>
+          <button type="submit" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:brightness-110 text-white font-bold text-xs shadow-lg shadow-indigo-600/30 active:scale-95 transition-all">
+            Guardar Rodaje
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- TOAST NOTIFICATION CONTAINER -->
   <div id="toastContainer" class="fixed top-5 right-5 z-[999] flex flex-col gap-2 pointer-events-none"></div>
 
@@ -1545,8 +1908,11 @@
       SUPABASE_URL: "https://zcvkylmjikdcpkhpxwqg.supabase.co",
       SUPABASE_ANON_KEY: "sb_publishable_CZJw-iheCX3OwzuJ7LBwXQ_daFyvKwf",
       DEFAULT_PIN: "1234",
-      PIN_STORAGE_KEY: "smc_user_pin",
+      PIN_STORAGE_KEY: "smc_user_pin_v2",
       AUTH_STORAGE_KEY: "smc_auth_session",
+      FINANZAS_STORAGE_KEY: "smc_finanzas_config",
+      QUOTES_STORAGE_KEY: "smc_presupuestos_emitidos",
+      AGENDA_STORAGE_KEY: "smc_agenda_rodajes",
     };
 
     // Inicializar cliente oficial de Supabase
@@ -1578,6 +1944,16 @@
       quoteClientId: '',
       quoteComboDiscount: 0,
       quoteVisualCategory: 'Todos',
+      // Versión 2.0 State Extensions
+      settlementPeriod: 'month', // 'month' | 'week'
+      settlementIncludeWeeklyFee: false,
+      issuedQuotes: [],
+      agendaEvents: [],
+      agendaFilter: 'Todos',
+      finanzas: {
+        valorHora: 10000,
+        gastosFijos: 120000
+      }
     };
 
     // --- 3. HELPER FUNCTIONS & FORMATTERS ---
@@ -1627,10 +2003,17 @@
     // --- 4. CONTROLADOR DE AUTENTICACIÓN POR PIN ---
     const Auth = {
       getStoredPin() {
-        return localStorage.getItem(CONFIG.PIN_STORAGE_KEY) || CONFIG.DEFAULT_PIN;
+        const val = localStorage.getItem(CONFIG.PIN_STORAGE_KEY) || localStorage.getItem('smc_user_pin');
+        if (val && typeof val === 'string' && val.trim().length === 4) {
+          return val.trim();
+        }
+        return CONFIG.DEFAULT_PIN;
       },
       setStoredPin(newPin) {
-        localStorage.setItem(CONFIG.PIN_STORAGE_KEY, newPin);
+        if (!newPin) return;
+        const clean = String(newPin).trim();
+        localStorage.setItem(CONFIG.PIN_STORAGE_KEY, clean);
+        localStorage.setItem('smc_user_pin', clean);
       },
       isUnlocked() {
         return sessionStorage.getItem(CONFIG.AUTH_STORAGE_KEY) === 'true';
@@ -1638,15 +2021,19 @@
       unlock() {
         sessionStorage.setItem(CONFIG.AUTH_STORAGE_KEY, 'true');
         const lockScreen = document.getElementById('lockScreen');
-        lockScreen.classList.add('opacity-0', 'pointer-events-none');
-        setTimeout(() => lockScreen.classList.add('hidden'), 300);
+        if (lockScreen) {
+          lockScreen.classList.add('opacity-0', 'pointer-events-none');
+          setTimeout(() => lockScreen.classList.add('hidden'), 300);
+        }
       },
       lock() {
         sessionStorage.removeItem(CONFIG.AUTH_STORAGE_KEY);
         State.enteredPin = '';
         Auth.updatePinDots();
         const lockScreen = document.getElementById('lockScreen');
-        lockScreen.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
+        if (lockScreen) {
+          lockScreen.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
+        }
       },
       handleKey(key) {
         if (key === 'C') {
@@ -1669,6 +2056,10 @@
         }
       },
       updatePinDots() {
+        const pinInput = document.getElementById('lockPinInput');
+        if (pinInput) {
+          pinInput.value = '•'.repeat(State.enteredPin.length);
+        }
         const dots = document.querySelectorAll('#pinDotsContainer .pin-dot');
         dots.forEach((dot, index) => {
           if (index < State.enteredPin.length) {
@@ -1689,7 +2080,7 @@
           // Vibración y Shake animado
           if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
           const container = document.getElementById('pinDotsContainer');
-          container.classList.add('animate-shake');
+          if (container) container.classList.add('animate-shake');
           
           const dots = document.querySelectorAll('#pinDotsContainer .pin-dot');
           dots.forEach(d => {
@@ -1698,7 +2089,7 @@
           });
 
           setTimeout(() => {
-            container.classList.remove('animate-shake');
+            if (container) container.classList.remove('animate-shake');
             State.enteredPin = '';
             Auth.updatePinDots();
           }, 600);
@@ -1709,9 +2100,15 @@
     // --- 5. CONTROLADOR PRINCIPAL DE LA APLICACIÓN (APP) ---
     const App = {
       async init() {
+        // Cargar configuraciones locales de Finanzas, Presupuestos y Agenda
+        App.loadFinanzasSettings();
+        App.loadIssuedQuotes();
+        App.loadAgendaEvents();
+
         // Verificar si está desbloqueado
         if (Auth.isUnlocked()) {
-          document.getElementById('lockScreen').classList.add('hidden');
+          const ls = document.getElementById('lockScreen');
+          if (ls) ls.classList.add('hidden');
         } else {
           Auth.lock();
         }
@@ -1832,6 +2229,13 @@
           App.renderQuoteVisualCatalog();
           App.renderQuoteBasket();
           App.updateQuoteTotals();
+          App.renderIssuedQuotes();
+        }
+        if (tabName === 'agenda') {
+          App.renderAgenda();
+        }
+        if (tabName === 'settings') {
+          App.populateFinanzasForm();
         }
 
         // Update Desktop Tabs
@@ -1910,6 +2314,8 @@
         App.renderQuoteVisualCatalog();
         App.renderQuoteBasket();
         App.updateQuoteTotals();
+        App.renderIssuedQuotes();
+        App.renderAgenda();
         renderIcons();
       },
 
@@ -1947,11 +2353,33 @@
         const totalProjected = fixedFee + extrasAmount;
         document.getElementById('statTotal').textContent = formatMoney(totalProjected);
 
+        // 5. Ganancia Limpia Estimada (Proyectado - Gastos Fijos del Mes)
+        const finanzas = State.finanzas || { valorHora: 10000, gastosFijos: 120000 };
+        const gastosFijos = Number(finanzas.gastosFijos) || 0;
+        const gananciaLimpia = totalProjected - gastosFijos;
+        
+        const elGanancia = document.getElementById('statGananciaLimpia');
+        if (elGanancia) {
+          elGanancia.textContent = formatMoney(gananciaLimpia);
+          elGanancia.className = gananciaLimpia >= 0 
+            ? 'text-2xl md:text-3xl font-black text-emerald-400 tracking-tight'
+            : 'text-2xl md:text-3xl font-black text-rose-400 tracking-tight';
+        }
+        const elBreakTotal = document.getElementById('statBreakdownTotal');
+        if (elBreakTotal) elBreakTotal.textContent = formatMoney(totalProjected);
+        const elBreakGastos = document.getElementById('statBreakdownGastos');
+        if (elBreakGastos) elBreakGastos.textContent = formatMoney(gastosFijos);
+        const elValorHoraRef = document.getElementById('statValorHoraRef');
+        if (elValorHoraRef) elValorHoraRef.textContent = formatMoney(finanzas.valorHora || 10000) + ' / hs';
+
         // Semáforo de Carga Operativa (Horas de tareas pendientes de la semana actual)
         App.renderWorkloadTrafficLight();
 
         // Lista Rápida de Entregas Pendientes
         App.renderPendingDeliveries();
+
+        // Widget de Próximos Rodajes y Eventos en Dashboard
+        App.renderDashboardAgendaPreview();
       },
 
       renderWorkloadTrafficLight() {
@@ -2090,7 +2518,7 @@
             <div class="col-span-full text-center py-12 text-slate-500">
               <i data-lucide="users" class="w-12 h-12 mx-auto mb-3 stroke-1"></i>
               <p class="text-sm font-semibold text-slate-300">No se encontraron clientes</p>
-              <p class="text-xs text-slate-500 mt-1">Podés cargarlos con el botón "+ Nuevo Cliente" o usar "Cargar Datos Iniciales (Seed)".</p>
+              <p class="text-xs text-slate-500 mt-1">Podés cargarlos con el botón "+ Nuevo Cliente".</p>
             </div>
           `;
           return;
@@ -2202,10 +2630,47 @@
                   </div>
                 </div>
 
-                <!-- Fee Mensual -->
-                <div class="mb-4 pb-3 border-b border-slate-800/80 flex items-center justify-between">
-                  <span class="text-xs text-slate-400">Abono Mensual:</span>
-                  <span class="text-sm font-black text-emerald-400">${formatMoney(client.valor_abono)}</span>
+                <!-- Fee Mensual & Alerta de Inflación Trimestral -->
+                <div class="mb-4 pb-3 border-b border-slate-800/80">
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs text-slate-400">Abono Mensual:</span>
+                    <span class="text-sm font-black text-emerald-400">${formatMoney(client.valor_abono)}</span>
+                  </div>
+                  ${(() => {
+                    if (Number(client.valor_abono) <= 0) return '';
+                    const profiles = JSON.parse(localStorage.getItem('smc_client_profiles') || '{}');
+                    const p = profiles[client.id] || {};
+                    if (!p.fecha_ultimo_aumento) {
+                      return `
+                        <div class="mt-2 flex items-center justify-between text-[11px] bg-amber-500/15 border border-amber-500/30 text-amber-300 rounded-lg px-2.5 py-1">
+                          <span class="flex items-center gap-1 font-semibold">
+                            <span>🟡</span>
+                            <span>Aumento Pendiente (Sin fecha registrada)</span>
+                          </span>
+                          <button onclick="App.openInflationModal('${client.id}')" class="underline font-bold hover:text-white">Ajustar</button>
+                        </div>
+                      `;
+                    }
+                    const lastDate = new Date(p.fecha_ultimo_aumento + 'T00:00:00');
+                    const diffDays = Math.floor((new Date() - lastDate) / (86400000));
+                    if (diffDays >= 90) {
+                      return `
+                        <div class="mt-2 flex items-center justify-between text-[11px] bg-amber-500/15 border border-amber-500/30 text-amber-300 rounded-lg px-2.5 py-1">
+                          <span class="flex items-center gap-1 font-semibold">
+                            <span>🟡</span>
+                            <span>Aumento Pendiente (${Math.floor(diffDays / 30)} meses sin ajuste)</span>
+                          </span>
+                          <button onclick="App.openInflationModal('${client.id}')" class="underline font-bold hover:text-white">Ajustar</button>
+                        </div>
+                      `;
+                    }
+                    return `
+                      <div class="mt-2 flex items-center justify-between text-[10px] text-slate-400 px-1">
+                        <span>Último aumento: ${p.fecha_ultimo_aumento}</span>
+                        <span class="text-emerald-400 font-medium">Al día (${diffDays} d)</span>
+                      </div>
+                    `;
+                  })()}
                 </div>
 
                 <!-- Quota Progress Bars -->
@@ -2217,13 +2682,17 @@
                 </div>
               </div>
 
-              <!-- Card Action Buttons -->
-              <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800/80">
-                <button onclick="App.openSettlementModal('${client.id}')" class="py-2 px-3 rounded-xl bg-slate-950 hover:bg-slate-800 text-indigo-300 border border-indigo-500/30 text-xs font-semibold flex items-center justify-center gap-1.5 transition-all">
+              <!-- Card Action Buttons (Liquidación, Ajuste Inflación, + Pedido) -->
+              <div class="grid grid-cols-3 gap-1.5 pt-2 border-t border-slate-800/80">
+                <button onclick="App.openSettlementModal('${client.id}')" class="py-2 px-1.5 rounded-xl bg-slate-950 hover:bg-slate-800 text-indigo-300 border border-indigo-500/30 text-[11px] font-semibold flex items-center justify-center gap-1 transition-all" title="Generar Liquidación">
                   <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
                   <span>Liquidación</span>
                 </button>
-                <button onclick="App.openNewJobForClient('${client.id}')" class="py-2 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-md">
+                <button onclick="App.openInflationModal('${client.id}')" class="py-2 px-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[11px] font-semibold flex items-center justify-center gap-1 transition-all" title="Ajuste Inflación & Mensaje WhatsApp">
+                  <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
+                  <span>Ajuste</span>
+                </button>
+                <button onclick="App.openNewJobForClient('${client.id}')" class="py-2 px-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-[11px] font-bold flex items-center justify-center gap-1 transition-all shadow-md" title="Nuevo Pedido">
                   <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                   <span>+ Pedido</span>
                 </button>
@@ -2349,7 +2818,7 @@
             <div class="col-span-full text-center py-12 text-slate-500">
               <i data-lucide="layers" class="w-12 h-12 mx-auto mb-3 stroke-1"></i>
               <p class="text-sm font-semibold text-slate-300">No hay servicios en esta categoría</p>
-              <p class="text-xs text-slate-500 mt-1">Usá "+ Nuevo Servicio" o el botón de Seed en Ajustes.</p>
+              <p class="text-xs text-slate-500 mt-1">Usá el botón "+ Nuevo Servicio".</p>
             </div>
           `;
           return;
@@ -2835,6 +3304,9 @@
         const profiles = JSON.parse(localStorage.getItem('smc_client_profiles') || '{}');
         const p = profiles[client.id] || { redes: ['Instagram'], etapa: 'Crecimiento Activo', serviciosExtra: [] };
         
+        const fechaAumentoInput = document.getElementById('clientFormFechaAumento');
+        if (fechaAumentoInput) fechaAumentoInput.value = p.fecha_ultimo_aumento || '';
+
         document.querySelectorAll('input[name="clientRedes"]').forEach(cb => {
           cb.checked = (p.redes || []).includes(cb.value);
         });
@@ -2888,9 +3360,15 @@
             const selectedRedes = Array.from(document.querySelectorAll('input[name="clientRedes"]:checked')).map(cb => cb.value);
             const etapa = document.getElementById('clientFormEtapa')?.value || 'Crecimiento Activo';
             const selectedServicios = Array.from(document.querySelectorAll('input[name="clientServiciosExtra"]:checked')).map(cb => cb.value);
+            const fechaAumentoVal = document.getElementById('clientFormFechaAumento')?.value || '';
 
             const profiles = JSON.parse(localStorage.getItem('smc_client_profiles') || '{}');
-            profiles[targetClientId] = { redes: selectedRedes, etapa, serviciosExtra: selectedServicios };
+            profiles[targetClientId] = { 
+              redes: selectedRedes, 
+              etapa, 
+              serviciosExtra: selectedServicios,
+              fecha_ultimo_aumento: fechaAumentoVal 
+            };
             localStorage.setItem('smc_client_profiles', JSON.stringify(profiles));
           }
 
@@ -2992,28 +3470,69 @@
         }
       },
 
-      // --- MÓDULO 8: LIQUIDACIÓN MENSUAL & EXPORTACIÓN (WHATSAPP & PDF) ---
+      // --- MÓDULO 8: LIQUIDACIÓN FLEXIBLE (MENSUAL / SEMANAL) & EXPORTACIÓN ---
+      setSettlementPeriod(period) {
+        State.settlementPeriod = period;
+        const btnM = document.getElementById('settlementBtnMonth');
+        const btnW = document.getElementById('settlementBtnWeek');
+        if (btnM && btnW) {
+          if (period === 'month') {
+            btnM.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-indigo-600 text-white shadow-sm';
+            btnW.className = 'px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-all';
+          } else {
+            btnW.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-indigo-600 text-white shadow-sm';
+            btnM.className = 'px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-all';
+          }
+        }
+        if (State.activeSettlementClient) {
+          App.openSettlementModal(State.activeSettlementClient.id);
+        }
+      },
+
       openSettlementModal(clientId) {
         const client = State.clients.find(c => c.id === clientId);
         if (!client) return;
 
         State.activeSettlementClient = client;
+        const isWeekly = State.settlementPeriod === 'week';
 
+        // Update titles
+        const modalTitle = document.getElementById('settlementModalTitle');
+        if (modalTitle) modalTitle.textContent = isWeekly ? 'Liquidación Semanal de Servicios (7 Días)' : 'Liquidación Mensual de Servicios';
+        
         document.getElementById('settlementClientName').textContent = client.nombre;
         document.getElementById('settlementClientUnit').textContent = `Unidad: ${client.unidad_negocio}`;
-        document.getElementById('settlementMonthLabel').textContent = formatMonthLabel(State.currentMonth);
-        document.getElementById('settlementIssueDate').textContent = `Fecha de emisión: ${new Date().toLocaleDateString('es-AR')}`;
 
-        // 1. Abono Base
-        document.getElementById('settlementFeeAmount').textContent = formatMoney(client.valor_abono);
+        const today = new Date();
+        const weekAgo = new Date(today.getTime() - 7 * 86400000);
 
-        // Cupos del mes
-        const clientMonthJobs = State.jobs.filter(j => 
-          j.cliente_id === client.id && 
-          j.fecha && j.fecha.startsWith(State.currentMonth)
-        );
+        if (isWeekly) {
+          document.getElementById('settlementMonthLabel').textContent = `Semana ${weekAgo.toLocaleDateString('es-AR', { day: '2-digit', month: 'short' })} al ${today.toLocaleDateString('es-AR', { day: '2-digit', month: 'short' })}`;
+        } else {
+          document.getElementById('settlementMonthLabel').textContent = formatMonthLabel(State.currentMonth);
+        }
+        document.getElementById('settlementIssueDate').textContent = `Fecha de emisión: ${today.toLocaleDateString('es-AR')}`;
 
-        const abonoJobs = clientMonthJobs.filter(j => j.modalidad === 'Abono');
+        // 1. Abono Base (Mensual completo o semanal proporcional/extras)
+        const baseFee = isWeekly ? Math.round((Number(client.valor_abono) || 0) / 4) : (Number(client.valor_abono) || 0);
+        document.getElementById('settlementFeeAmount').textContent = formatMoney(baseFee);
+
+        // Filter Jobs according to period
+        let clientJobs = [];
+        if (isWeekly) {
+          clientJobs = State.jobs.filter(j => {
+            if (j.cliente_id !== client.id || !j.fecha) return false;
+            const jd = new Date(j.fecha + 'T00:00:00');
+            return jd >= weekAgo && jd <= today;
+          });
+        } else {
+          clientJobs = State.jobs.filter(j => 
+            j.cliente_id === client.id && 
+            j.fecha && j.fecha.startsWith(State.currentMonth)
+          );
+        }
+
+        const abonoJobs = clientJobs.filter(j => j.modalidad === 'Abono');
         const usedReels = abonoJobs.filter(j => j.tipo_cupo === 'reels').length;
         const usedFlyers = abonoJobs.filter(j => j.tipo_cupo === 'flyers').length;
         const usedHistorias = abonoJobs.filter(j => j.tipo_cupo === 'historias').length;
@@ -3039,19 +3558,19 @@
         `;
 
         // 2. Extras List
-        const extrasJobs = clientMonthJobs.filter(j => j.modalidad === 'Extra' || j.modalidad === 'Puntual');
+        const extrasJobs = clientJobs.filter(j => j.modalidad === 'Extra' || j.modalidad === 'Puntual');
         const extrasTotal = extrasJobs.reduce((sum, j) => sum + (Number(j.precio_final) || 0), 0);
         document.getElementById('settlementExtrasAmount').textContent = formatMoney(extrasTotal);
 
         const extrasContainer = document.getElementById('settlementExtrasList');
         if (extrasJobs.length === 0) {
-          extrasContainer.innerHTML = `<div class="text-slate-500 italic py-1">No se registraron servicios extras en este período.</div>`;
+          extrasContainer.innerHTML = `<div class="text-slate-500 italic py-1 text-xs">No se registraron extras en este período (${isWeekly ? 'últimos 7 días' : 'este mes'}).</div>`;
         } else {
           extrasContainer.innerHTML = extrasJobs.map(j => `
             <div class="flex items-center justify-between p-2 rounded-lg bg-slate-900/60 border border-slate-800">
               <div>
                 <span class="font-semibold text-white">${j.smc_servicios?.nombre || 'Servicio Extra'}</span>
-                <span class="text-slate-400 block text-[11px]">${j.fecha} • ${j.descripcion || ''} ${Number(j.recargo_urgencia) > 0 ? `(+${j.recargo_urgencia}% urgencia)` : ''}</span>
+                <span class="text-slate-400 block text-[11px]">${j.fecha} • ${j.descripcion || ''} ${Number(j.recargo_urgencia) > 0 ? `(+ ${j.recargo_urgencia}% urgencia)` : ''}</span>
               </div>
               <span class="font-bold text-purple-300">${formatMoney(j.precio_final)}</span>
             </div>
@@ -3059,27 +3578,27 @@
         }
 
         // 3. Cortesías List
-        const courtesyJobs = clientMonthJobs.filter(j => j.modalidad === 'Cortesia');
+        const courtesyJobs = clientJobs.filter(j => j.modalidad === 'Cortesia');
         const courtesyTotal = courtesyJobs.reduce((sum, j) => sum + (Number(j.valor_real_cortesia) || 0), 0);
         document.getElementById('settlementCourtesyAmount').textContent = `${formatMoney(courtesyTotal)} (Ahorrado)`;
 
         const courtesyContainer = document.getElementById('settlementCourtesyList');
         if (courtesyJobs.length === 0) {
-          courtesyContainer.innerHTML = `<div class="text-slate-500 italic py-1">No hay cortesías registradas este mes.</div>`;
+          courtesyContainer.innerHTML = `<div class="text-slate-500 italic py-1 text-xs">No hay cortesías registradas en este período.</div>`;
         } else {
           courtesyContainer.innerHTML = courtesyJobs.map(j => `
             <div class="flex items-center justify-between p-2 rounded-lg bg-emerald-950/40 border border-emerald-500/20">
               <div>
                 <span class="font-semibold text-emerald-300">${j.smc_servicios?.nombre || 'Cortesía de la agencia'}</span>
-                <span class="text-slate-400 block text-[11px]">${j.fecha} • ${j.descripcion || ''} (Valor real comercial: ${formatMoney(j.valor_real_cortesia)})</span>
+                <span class="text-slate-400 block text-[11px]">${j.fecha} • ${j.descripcion || ''} (Valor comercial: ${formatMoney(j.valor_real_cortesia)})</span>
               </div>
               <span class="font-bold text-emerald-400">100% OFF ($0)</span>
             </div>
           `).join('');
         }
 
-        // 4. TOTAL
-        const totalToPay = (Number(client.valor_abono) || 0) + extrasTotal;
+        // 4. Total a Abonar
+        const totalToPay = baseFee + extrasTotal;
         document.getElementById('settlementTotalAmount').textContent = formatMoney(totalToPay);
 
         document.getElementById('settlementModal').classList.remove('hidden');
@@ -3092,46 +3611,67 @@
         document.getElementById('settlementModal').classList.remove('flex');
       },
 
-      copySettlementWhatsApp() {
+      generateSettlementWhatsAppText() {
         const client = State.activeSettlementClient;
-        if (!client) return;
+        if (!client) return '';
 
-        const clientMonthJobs = State.jobs.filter(j => 
-          j.cliente_id === client.id && 
-          j.fecha && j.fecha.startsWith(State.currentMonth)
-        );
+        const isWeekly = State.settlementPeriod === 'week';
+        const today = new Date();
+        const weekAgo = new Date(today.getTime() - 7 * 86400000);
 
-        const abonoJobs = clientMonthJobs.filter(j => j.modalidad === 'Abono');
+        let clientJobs = [];
+        let periodName = '';
+        let baseFee = 0;
+
+        if (isWeekly) {
+          periodName = `Semanal (${weekAgo.toLocaleDateString('es-AR', { day: '2-digit', month: 'short' })} al ${today.toLocaleDateString('es-AR', { day: '2-digit', month: 'short' })})`;
+          baseFee = Math.round((Number(client.valor_abono) || 0) / 4);
+          clientJobs = State.jobs.filter(j => {
+            if (j.cliente_id !== client.id || !j.fecha) return false;
+            const jd = new Date(j.fecha + 'T00:00:00');
+            return jd >= weekAgo && jd <= today;
+          });
+        } else {
+          periodName = formatMonthLabel(State.currentMonth);
+          baseFee = Number(client.valor_abono) || 0;
+          clientJobs = State.jobs.filter(j => 
+            j.cliente_id === client.id && 
+            j.fecha && j.fecha.startsWith(State.currentMonth)
+          );
+        }
+
+        const abonoJobs = clientJobs.filter(j => j.modalidad === 'Abono');
         const usedReels = abonoJobs.filter(j => j.tipo_cupo === 'reels').length;
         const usedFlyers = abonoJobs.filter(j => j.tipo_cupo === 'flyers').length;
         const usedHistorias = abonoJobs.filter(j => j.tipo_cupo === 'historias').length;
         const usedRodajes = abonoJobs.filter(j => j.tipo_cupo === 'rodajes').length;
 
-        const extrasJobs = clientMonthJobs.filter(j => j.modalidad === 'Extra' || j.modalidad === 'Puntual');
+        const extrasJobs = clientJobs.filter(j => j.modalidad === 'Extra' || j.modalidad === 'Puntual');
         const extrasTotal = extrasJobs.reduce((sum, j) => sum + (Number(j.precio_final) || 0), 0);
 
-        const courtesyJobs = clientMonthJobs.filter(j => j.modalidad === 'Cortesia');
+        const courtesyJobs = clientJobs.filter(j => j.modalidad === 'Cortesia');
         const courtesyTotal = courtesyJobs.reduce((sum, j) => sum + (Number(j.valor_real_cortesia) || 0), 0);
 
-        const totalToPay = (Number(client.valor_abono) || 0) + extrasTotal;
-        const monthName = formatMonthLabel(State.currentMonth);
+        const totalToPay = baseFee + extrasTotal;
 
-        let msg = `🧾 *SMAILY SOCIAL MEDIA* | Liquidación ${monthName}\n`;
+        let msg = `🧾 *SMAILY SOCIAL MEDIA* | Liquidación ${periodName}\n`;
         msg += `👤 Cliente: *${client.nombre}*\n`;
         msg += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
-        msg += `💼 *1. ABONO MENSUAL BASE:* ${formatMoney(client.valor_abono)}\n`;
-        msg += `📊 *Cupos consumidos en el mes:*\n`;
-        if (client.cupo_reels > 0) msg += `   • 🎬 Reels: ${usedReels}/${client.cupo_reels}\n`;
-        if (client.cupo_flyers > 0) msg += `   • 🎨 Flyers / Placas: ${usedFlyers}/${client.cupo_flyers}\n`;
-        if (client.cupo_historias > 0) msg += `   • 📱 Historias: ${usedHistorias}/${client.cupo_historias}\n`;
-        if (client.cupo_rodajes > 0) msg += `   • 🎥 Rodajes: ${usedRodajes}/${client.cupo_rodajes}\n`;
-        msg += `\n`;
+        if (baseFee > 0) {
+          msg += `💼 *${isWeekly ? '1. ABONO SEMANAL (1/4):' : '1. ABONO MENSUAL BASE:'}* ${formatMoney(baseFee)}\n`;
+          msg += `📊 *Cupos consumidos en el período:*\n`;
+          if (client.cupo_reels > 0) msg += `   • 🎬 Reels: ${usedReels}/${client.cupo_reels}\n`;
+          if (client.cupo_flyers > 0) msg += `   • 🎨 Flyers / Placas: ${usedFlyers}/${client.cupo_flyers}\n`;
+          if (client.cupo_historias > 0) msg += `   • 📱 Historias: ${usedHistorias}/${client.cupo_historias}\n`;
+          if (client.cupo_rodajes > 0) msg += `   • 🎥 Rodajes: ${usedRodajes}/${client.cupo_rodajes}\n`;
+          msg += `\n`;
+        }
 
         if (extrasJobs.length > 0) {
           msg += `➕ *2. SERVICIOS EXTRAS Y ADICIONALES:*\n`;
           extrasJobs.forEach(j => {
-            const urg = Number(j.recargo_urgencia) > 0 ? ` (+${j.recargo_urgencia}% urgencia)` : '';
+            const urg = Number(j.recargo_urgencia) > 0 ? ` (+ ${j.recargo_urgencia}% urgencia)` : '';
             msg += `   • ${j.fecha} - ${j.smc_servicios?.nombre || 'Extra'}${urg}: ${formatMoney(j.precio_final)}\n`;
           });
           msg += `   👉 *Subtotal Extras:* ${formatMoney(extrasTotal)}\n\n`;
@@ -3151,10 +3691,33 @@
         msg += `¡Muchas gracias por confiar en nuestro equipo creativo! 🚀\n`;
         msg += `_Smaily Social Media • Producción Audiovisual & Marketing Digital_`;
 
-        // Copiado robusto con fallback para móviles
+        return msg;
+      },
+
+      sendSettlementWhatsApp() {
+        const msg = App.generateSettlementWhatsAppText();
+        if (!msg) return;
+
+        // Backup copy to clipboard
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(msg).catch(() => App.fallbackCopyToClipboard(msg));
+        } else {
+          App.fallbackCopyToClipboard(msg);
+        }
+
+        // Open WhatsApp Web or App
+        const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+        window.open(url, '_blank');
+        showToast('Abriendo WhatsApp y texto copiado al portapapeles', 'success');
+      },
+
+      copySettlementWhatsAppOnly() {
+        const msg = App.generateSettlementWhatsAppText();
+        if (!msg) return;
+
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(msg).then(() => {
-            showToast('¡Texto copiado para pegar en WhatsApp!', 'success');
+            showToast('¡Texto copiado para WhatsApp!', 'success');
           }).catch(() => {
             App.fallbackCopyToClipboard(msg);
           });
@@ -3163,37 +3726,15 @@
         }
       },
 
-      fallbackCopyToClipboard(text) {
-        try {
-          const textArea = document.createElement("textarea");
-          textArea.value = text;
-          textArea.style.position = "fixed";
-          textArea.style.left = "-999999px";
-          textArea.style.top = "-999999px";
-          document.body.appendChild(textArea);
-          textArea.focus();
-          textArea.select();
-          const successful = document.execCommand('copy');
-          document.body.removeChild(textArea);
-          if (successful) {
-            showToast('¡Texto copiado para pegar en WhatsApp!', 'success');
-          } else {
-            showToast('No se pudo copiar automáticamente', 'error');
-          }
-        } catch (err) {
-          console.error('Fallback clipboard error:', err);
-          showToast('No se pudo copiar el texto', 'error');
-        }
-      },
-
       downloadSettlementPDF() {
         const client = State.activeSettlementClient;
         if (!client) return;
 
+        const isWeekly = State.settlementPeriod === 'week';
         const element = document.getElementById('settlementPrintArea');
-        const filename = `Liquidacion_${client.nombre.replace(/\s+/g, '_')}_${State.currentMonth}.pdf`;
+        const filename = `Liquidacion_${isWeekly ? 'Semanal' : 'Mensual'}_${client.nombre.replace(/\s+/g, '_')}_${State.currentMonth}.pdf`;
 
-        showToast('Generando PDF corporativo...', 'info');
+        showToast('Generando PDF...', 'info');
 
         const opt = {
           margin: [8, 8, 8, 8],
@@ -3217,11 +3758,767 @@
         });
       },
 
-      // --- MÓDULO 9: AJUSTES, CAMBIAR PIN Y SEED DATA ---
+      fallbackCopyToClipboard(text) {
+        try {
+          const textArea = document.createElement("textarea");
+          textArea.value = text;
+          textArea.style.position = "fixed";
+          textArea.style.left = "-999999px";
+          textArea.style.top = "-999999px";
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+          const successful = document.execCommand('copy');
+          document.body.removeChild(textArea);
+          if (successful) {
+            showToast('¡Texto copiado al portapapeles!', 'success');
+          }
+        } catch (err) {
+          console.error('Fallback clipboard error:', err);
+          showToast('No se pudo copiar el texto', 'error');
+        }
+      },
+
+      // --- MÓDULO AUMENTOS TRIMESTRALES (CONTROL DE INFLACIÓN) ---
+      openInflationModal(clientId) {
+        const client = State.clients.find(c => c.id === clientId);
+        if (!client) return;
+
+        document.getElementById('inflationClientId').value = client.id;
+        document.getElementById('inflationModalClientSub').textContent = `Cliente: ${client.nombre} (${client.unidad_negocio})`;
+        document.getElementById('inflationCurrentFee').textContent = formatMoney(client.valor_abono);
+
+        const profiles = JSON.parse(localStorage.getItem('smc_client_profiles') || '{}');
+        const p = profiles[client.id] || {};
+        const lastDate = p.fecha_ultimo_aumento;
+        
+        if (lastDate) {
+          const diffDays = Math.floor((new Date() - new Date(lastDate + 'T00:00:00')) / 86400000);
+          document.getElementById('inflationLastDate').textContent = `${lastDate} (Hace ${diffDays} días)`;
+        } else {
+          document.getElementById('inflationLastDate').textContent = 'No registrado';
+        }
+
+        // Default 25% adjustment
+        App.applyInflationPct(25);
+
+        document.getElementById('inflationModal').classList.remove('hidden');
+        document.getElementById('inflationModal').classList.add('flex');
+        renderIcons();
+      },
+
+      closeInflationModal() {
+        document.getElementById('inflationModal').classList.add('hidden');
+        document.getElementById('inflationModal').classList.remove('flex');
+      },
+
+      applyInflationPct(pct) {
+        const clientId = document.getElementById('inflationClientId').value;
+        const client = State.clients.find(c => c.id === clientId);
+        if (!client) return;
+
+        const currentFee = Number(client.valor_abono) || 0;
+        const newFee = Math.round((currentFee * (1 + pct / 100)) / 1000) * 1000;
+        document.getElementById('inflationNewFeeInput').value = newFee;
+        App.updateInflationMessagePreview();
+      },
+
+      updateInflationMessagePreview() {
+        const clientId = document.getElementById('inflationClientId').value;
+        const client = State.clients.find(c => c.id === clientId);
+        if (!client) return;
+
+        const newFee = Number(document.getElementById('inflationNewFeeInput').value) || 0;
+        
+        const msg = `¡Hola ${client.nombre}! 👋 ¿Cómo estás? Te escribo desde Smaily Social Media 🚀\n\n` +
+          `Queríamos contarte que para seguir brindándote la máxima calidad en producción audiovisual, edición dinámica y gestión estratégica de tu marca (y debido a la actualización trimestral de costos operativos e inflación), a partir del próximo mes el fee mensual se actualizará a *${formatMoney(newFee)}*.\n\n` +
+          `Seguimos comprometidos al 100% con hacer crecer tu contenido y el impacto de tu negocio. ¡Muchas gracias por seguir confiando en nuestro equipo creativo! 🙌✨\n\n` +
+          `_Sonri • Smaily Social Media_`;
+
+        document.getElementById('inflationMessagePreview').value = msg;
+      },
+
+      sendInflationWhatsApp() {
+        const msg = document.getElementById('inflationMessagePreview').value.trim();
+        if (!msg) return;
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(msg).catch(() => App.fallbackCopyToClipboard(msg));
+        } else {
+          App.fallbackCopyToClipboard(msg);
+        }
+
+        const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+        window.open(url, '_blank');
+        showToast('Abriendo WhatsApp y texto copiado', 'success');
+      },
+
+      copyInflationMessage() {
+        const msg = document.getElementById('inflationMessagePreview').value.trim();
+        if (!msg) return;
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(msg).then(() => {
+            showToast('¡Mensaje copiado al portapapeles!', 'success');
+          }).catch(() => {
+            App.fallbackCopyToClipboard(msg);
+          });
+        } else {
+          App.fallbackCopyToClipboard(msg);
+        }
+      },
+
+      async applyInflationUpdateToClient() {
+        const clientId = document.getElementById('inflationClientId').value;
+        const client = State.clients.find(c => c.id === clientId);
+        if (!client) return;
+
+        const newFee = Number(document.getElementById('inflationNewFeeInput').value) || 0;
+        if (newFee <= 0) {
+          showToast('Ingresá un valor válido para el nuevo abono', 'warning');
+          return;
+        }
+
+        try {
+          // 1. Actualizar valor_abono en Supabase
+          const { error } = await db.from('smc_clientes').update({ valor_abono: newFee }).eq('id', clientId);
+          if (error) throw error;
+
+          // 2. Actualizar fecha_ultimo_aumento en localStorage
+          const today = new Date().toISOString().slice(0, 10);
+          const profiles = JSON.parse(localStorage.getItem('smc_client_profiles') || '{}');
+          if (!profiles[clientId]) profiles[clientId] = {};
+          profiles[clientId].fecha_ultimo_aumento = today;
+          localStorage.setItem('smc_client_profiles', JSON.stringify(profiles));
+
+          showToast(`¡Abono actualizado a ${formatMoney(newFee)} y fecha fijada a hoy!`, 'success');
+          App.closeInflationModal();
+          await App.fetchAllData();
+        } catch (error) {
+          console.error('Error updating fee:', error);
+          showToast('Error al actualizar abono: ' + error.message, 'error');
+        }
+      },
+
+      // --- MÓDULO PRESUPUESTOS EMITIDOS (CONTROL DE VENCIMIENTO A 7 DÍAS) ---
+      loadIssuedQuotes() {
+        try {
+          State.issuedQuotes = JSON.parse(localStorage.getItem(CONFIG.QUOTES_STORAGE_KEY) || '[]');
+        } catch (e) {
+          State.issuedQuotes = [];
+        }
+      },
+
+      saveIssuedQuote() {
+        if (State.quoteItems.length === 0) {
+          showToast('Agregá al menos un servicio al combo para guardar el presupuesto', 'warning');
+          return;
+        }
+
+        const clientInfo = App.getQuoteClientInfo();
+        if (State.quoteClientMode === 'new' && !document.getElementById('quoteNewClientName').value.trim()) {
+          showToast('Ingresá el nombre del cliente o prospecto', 'warning');
+          return;
+        }
+
+        const today = new Date();
+        const dueDate = new Date(today.getTime() + 7 * 86400000);
+
+        const quote = {
+          id: 'quote_' + Date.now(),
+          clientName: clientInfo.name,
+          clientPhone: clientInfo.phone || '',
+          clientId: clientInfo.isNew ? null : (clientInfo.client?.id || null),
+          items: JSON.parse(JSON.stringify(State.quoteItems)),
+          termsKey: document.getElementById('quoteCommercialTermsSelect')?.value || 'evento_15',
+          discount: State.quoteComboDiscount,
+          totalCommercial: State.quoteTotalReal,
+          totalCourtesy: State.quoteTotalCourtesy,
+          totalFinal: State.quoteFinalPrice,
+          fecha_emision: today.toISOString().slice(0, 10),
+          fecha_vencimiento: dueDate.toISOString().slice(0, 10),
+          estado: 'vigente' // 'vigente' | 'aprobado' | 'rechazado'
+        };
+
+        State.issuedQuotes.unshift(quote);
+        localStorage.setItem(CONFIG.QUOTES_STORAGE_KEY, JSON.stringify(State.issuedQuotes));
+        showToast('¡Presupuesto emitido y registrado con vencimiento a 7 días!', 'success');
+        App.renderIssuedQuotes();
+      },
+
+      renderIssuedQuotes() {
+        const container = document.getElementById('issuedQuotesListContainer');
+        const badgeCount = document.getElementById('issuedQuotesBadgeCount');
+        if (badgeCount) badgeCount.textContent = State.issuedQuotes.length;
+
+        if (!container) return;
+
+        if (State.issuedQuotes.length === 0) {
+          container.innerHTML = `
+            <div class="col-span-full text-center py-8 rounded-2xl bg-slate-900/60 border border-slate-800 text-slate-500 text-xs">
+              <i data-lucide="clipboard" class="w-8 h-8 mx-auto mb-2 stroke-1"></i>
+              <p>No hay presupuestos emitidos todavía. Creá un combo arriba y hacé clic en "Guardar Cotización Actual".</p>
+            </div>
+          `;
+          renderIcons();
+          return;
+        }
+
+        const todayStr = new Date().toISOString().slice(0, 10);
+        const todayDate = new Date();
+
+        container.innerHTML = State.issuedQuotes.map(q => {
+          let statusBadge = '';
+          const due = new Date(q.fecha_vencimiento + 'T23:59:59');
+          const isExpired = todayDate > due;
+
+          if (q.estado === 'aprobado') {
+            statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">🟣 Aprobado (En SMC)</span>';
+          } else if (q.estado === 'rechazado') {
+            statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">⚪ Rechazado</span>';
+          } else if (!isExpired) {
+            const daysLeft = Math.max(0, Math.ceil((due - todayDate) / 86400000));
+            statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">🟢 Vigente (${daysLeft}d restantes)</span>`;
+          } else {
+            const daysOver = Math.floor((todayDate - due) / 86400000);
+            statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30">🔴 Vencido (${daysOver}d atrás)</span>`;
+          }
+
+          const itemsSummary = (q.items || []).map(i => `${i.nombre} (x${i.cantidad})`).join(', ');
+
+          return `
+            <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-4 shadow-lg space-y-3 hover:border-slate-700 transition-all">
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <h4 class="text-sm font-bold text-white leading-snug">${q.clientName}</h4>
+                  <div class="text-[11px] text-slate-400 flex items-center gap-1 mt-0.5">
+                    <span>Emisión: ${q.fecha_emision}</span>
+                    <span>•</span>
+                    <span class="text-indigo-300">Vence: ${q.fecha_vencimiento}</span>
+                  </div>
+                </div>
+                ${statusBadge}
+              </div>
+
+              <div class="text-xs text-slate-300 line-clamp-2 bg-slate-950 p-2 rounded-xl border border-slate-800/80">
+                ${itemsSummary}
+              </div>
+
+              <div class="flex items-center justify-between text-xs pt-1 border-t border-slate-800">
+                <span class="text-slate-400">Total Presupuestado:</span>
+                <span class="text-sm font-black text-emerald-400">${formatMoney(q.totalFinal)}</span>
+              </div>
+
+              <div class="grid grid-cols-3 gap-1.5 pt-2 border-t border-slate-800/80 text-[11px]">
+                ${q.estado !== 'aprobado' ? `
+                  <button onclick="App.approveIssuedQuote('${q.id}')" class="py-1.5 px-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold flex items-center justify-center gap-1 transition-all" title="Aprobar y Cargar a Trabajos">
+                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                    <span>Aprobar</span>
+                  </button>
+                ` : `
+                  <button disabled class="py-1.5 px-2 rounded-lg bg-slate-800 text-slate-500 text-[10px] flex items-center justify-center">
+                    <span>Aprobado</span>
+                  </button>
+                `}
+                <button onclick="App.sendQuoteWhatsAppUrgency('${q.id}')" class="py-1.5 px-2 rounded-lg bg-slate-950 hover:bg-slate-800 text-emerald-400 border border-emerald-500/30 font-semibold flex items-center justify-center gap-1 transition-all" title="Reenviar WhatsApp con Urgencia">
+                  <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+                  <span>WhatsApp</span>
+                </button>
+                <button onclick="App.deleteIssuedQuote('${q.id}')" class="py-1.5 px-2 rounded-lg bg-slate-950 hover:bg-slate-800 text-rose-400 border border-slate-800 font-semibold flex items-center justify-center gap-1 transition-all" title="Eliminar / Rechazar">
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  <span>Borrar</span>
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        renderIcons();
+      },
+
+      async approveIssuedQuote(quoteId) {
+        const quote = State.issuedQuotes.find(q => q.id === quoteId);
+        if (!quote) return;
+
+        if (!confirm(`¿Aprobar el presupuesto de "${quote.clientName}" e insertar sus ${quote.items.length} servicios como trabajos en SMC?`)) return;
+
+        try {
+          showToast('Creando cliente y trabajos en Supabase...', 'info');
+          let targetClientId = quote.clientId;
+
+          if (!targetClientId) {
+            // Check if client name exists in State.clients
+            const existingClient = State.clients.find(c => c.nombre.toLowerCase() === quote.clientName.toLowerCase());
+            if (existingClient) {
+              targetClientId = existingClient.id;
+            } else {
+              // Create new client
+              const { data: newC, error: cErr } = await db.from('smc_clientes').insert([{
+                nombre: quote.clientName,
+                unidad_negocio: 'Eventual',
+                valor_abono: 0,
+                cupo_reels: 0,
+                cupo_flyers: 0,
+                cupo_historias: 0,
+                cupo_rodajes: 0,
+                activo: true
+              }]).select();
+              if (cErr) throw cErr;
+              targetClientId = newC[0].id;
+            }
+          }
+
+          const todayStr = new Date().toISOString().slice(0, 10);
+          const jobsToInsert = (quote.items || []).map(item => {
+            const itemTotal = item.precio_unitario * item.cantidad;
+            return {
+              cliente_id: targetClientId,
+              servicio_id: item.service_id || null,
+              descripcion: `${item.nombre} (x${item.cantidad}) - Presupuesto Aprobado`,
+              fecha: todayStr,
+              modalidad: item.es_cortesia ? 'Cortesia' : 'Puntual',
+              tipo_cupo: null,
+              recargo_urgencia: 0,
+              precio_final: item.es_cortesia ? 0 : itemTotal,
+              valor_real_cortesia: item.es_cortesia ? itemTotal : 0,
+              horas_tarea: (item.horas_estimadas || 2) * item.cantidad,
+              estado: 'Pendiente'
+            };
+          });
+
+          const { error: jErr } = await db.from('smc_trabajos').insert(jobsToInsert);
+          if (jErr) throw jErr;
+
+          // Update quote state
+          quote.estado = 'aprobado';
+          quote.clientId = targetClientId;
+          localStorage.setItem(CONFIG.QUOTES_STORAGE_KEY, JSON.stringify(State.issuedQuotes));
+
+          showToast(`¡Presupuesto aprobado! Se generaron ${jobsToInsert.length} trabajos.`, 'success');
+          await App.fetchAllData();
+          App.renderIssuedQuotes();
+          App.switchTab('jobs');
+        } catch (error) {
+          console.error('Error approving quote:', error);
+          showToast('Error al aprobar presupuesto: ' + error.message, 'error');
+        }
+      },
+
+      deleteIssuedQuote(quoteId) {
+        if (!confirm('¿Eliminar esta cotización emitida de tu historial?')) return;
+        State.issuedQuotes = State.issuedQuotes.filter(q => q.id !== quoteId);
+        localStorage.setItem(CONFIG.QUOTES_STORAGE_KEY, JSON.stringify(State.issuedQuotes));
+        showToast('Presupuesto eliminado', 'info');
+        App.renderIssuedQuotes();
+      },
+
+      sendQuoteWhatsAppUrgency(quoteId) {
+        const quote = State.issuedQuotes.find(q => q.id === quoteId);
+        if (!quote) return;
+
+        const today = new Date();
+        const due = new Date(quote.fecha_vencimiento + 'T23:59:59');
+        const isExpired = today > due;
+        const daysLeft = Math.max(0, Math.ceil((due - today) / 86400000));
+
+        let msg = `Hola *${quote.clientName}*! 👋 Te escribo desde *Smaily Social Media* para consultarte sobre la propuesta que te compartimos.\n\n`;
+        msg += `📋 *Resumen de la propuesta:*\n`;
+        (quote.items || []).forEach(i => {
+          msg += ` • ${i.nombre} (x${i.cantidad})${i.es_cortesia ? ' *(🎁 Bonificado)*' : ''}\n`;
+        });
+        msg += `\n💰 *Total acordado:* ${formatMoney(quote.totalFinal)}\n`;
+        
+        if (!isExpired) {
+          msg += `⏰ *Validez de la propuesta:* Hasta el ${quote.fecha_vencimiento} (Quedan ${daysLeft} días para congelar fecha y precio en agenda).\n\n`;
+        } else {
+          msg += `⚠️ *Aviso de vigencia:* La propuesta venció el ${quote.fecha_vencimiento}. Si confirmás esta semana podemos congelar los mismos valores.\n\n`;
+        }
+        
+        msg += `¿Pudiste revisarla? Cualquier duda o ajuste estamos a disposición. ¡Un saludo! 🚀\n`;
+        msg += `_Sonri • Smaily Social Media_`;
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(msg).catch(() => App.fallbackCopyToClipboard(msg));
+        } else {
+          App.fallbackCopyToClipboard(msg);
+        }
+
+        const url = quote.clientPhone 
+          ? `https://wa.me/${quote.clientPhone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(msg)}`
+          : `https://wa.me/?text=${encodeURIComponent(msg)}`;
+        window.open(url, '_blank');
+        showToast('Abriendo WhatsApp y texto copiado', 'success');
+      },
+
+      // --- MÓDULO AGENDA SIMPLE DE EVENTOS & RADAJES (EVITAR SUPERPOSICIÓN) ---
+      loadAgendaEvents() {
+        try {
+          State.agendaEvents = JSON.parse(localStorage.getItem(CONFIG.AGENDA_STORAGE_KEY) || '[]');
+        } catch (e) {
+          State.agendaEvents = [];
+        }
+      },
+
+      renderAgenda() {
+        const container = document.getElementById('agendaEventsContainer');
+        if (!container) return;
+
+        // Metric Calculations
+        const pendingEvents = State.agendaEvents.filter(e => e.estado === 'Pendiente');
+        const countPending = pendingEvents.length;
+        const totalTravelCost = State.agendaEvents.reduce((sum, e) => sum + (Number(e.costo_viaje) || 0), 0);
+
+        const countEl = document.getElementById('agendaCountPending');
+        if (countEl) countEl.textContent = countPending;
+
+        const travelEl = document.getElementById('agendaTotalTravelCost');
+        if (travelEl) travelEl.textContent = formatMoney(totalTravelCost);
+
+        // Next Shoot calculation
+        const sortedUpcoming = [...pendingEvents].sort((a, b) => (a.fecha + ' ' + (a.hora || '')) > (b.fecha + ' ' + (b.hora || '')) ? 1 : -1);
+        const nextShoot = sortedUpcoming[0];
+        const nextEl = document.getElementById('agendaNextShootInfo');
+        if (nextEl) {
+          nextEl.textContent = nextShoot ? `${nextShoot.fecha} • ${nextShoot.cliente_nombre}` : 'Ninguno programado';
+        }
+
+        // Filter events
+        let filtered = [...State.agendaEvents];
+        if (State.agendaFilter !== 'Todos') {
+          filtered = filtered.filter(e => e.estado === State.agendaFilter);
+        }
+
+        // Chronological sort ascending
+        filtered.sort((a, b) => {
+          const keyA = (a.fecha || '') + ' ' + (a.hora || '00:00');
+          const keyB = (b.fecha || '') + ' ' + (b.hora || '00:00');
+          return keyA > keyB ? 1 : -1;
+        });
+
+        if (filtered.length === 0) {
+          container.innerHTML = `
+            <div class="text-center py-12 rounded-2xl bg-slate-900/60 border border-slate-800 text-slate-500 text-xs">
+              <i data-lucide="calendar" class="w-10 h-10 mx-auto mb-2 stroke-1"></i>
+              <p class="font-semibold text-slate-300">No hay rodajes registrados en esta vista.</p>
+              <p class="text-[11px] mt-1">Usá el botón "+ Cargar Nuevo Rodaje / Evento" para agendar fechas de grabación.</p>
+            </div>
+          `;
+          renderIcons();
+          return;
+        }
+
+        const todayStr = new Date().toISOString().slice(0, 10);
+
+        container.innerHTML = filtered.map(evt => {
+          // Relative badge
+          let dateBadge = '';
+          if (evt.fecha === todayStr) {
+            dateBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30 animate-pulse">🔴 ¡HOY!</span>';
+          } else {
+            const diffDays = Math.ceil((new Date(evt.fecha + 'T00:00:00') - new Date(todayStr + 'T00:00:00')) / 86400000);
+            if (diffDays === 1) {
+              dateBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">🟡 Mañana</span>';
+            } else if (diffDays > 1) {
+              dateBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">🔵 En ${diffDays} días</span>`;
+            } else {
+              dateBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">⚪ Pasado</span>';
+            }
+          }
+
+          const isCompleted = evt.estado === 'Realizado';
+
+          return `
+            <div class="rounded-2xl bg-slate-900/90 border ${isCompleted ? 'border-slate-800 opacity-75' : 'border-slate-800'} p-5 shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-slate-700 transition-all">
+              <div class="space-y-1.5 flex-1">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="text-xs font-bold text-white uppercase tracking-wider">${evt.fecha}</span>
+                  <span class="text-xs px-2 py-0.2 rounded bg-slate-950 text-indigo-300 border border-slate-800 font-semibold">⏰ ${evt.hora || 'Sin hora'} hs</span>
+                  ${dateBadge}
+                  <span class="text-[10px] px-2 py-0.2 rounded font-semibold ${isCompleted ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-slate-800 text-slate-300'}">${evt.estado}</span>
+                </div>
+                
+                <h3 class="text-base font-extrabold text-white flex items-center gap-2">
+                  <i data-lucide="video" class="w-4 h-4 text-purple-400"></i>
+                  <span>${evt.cliente_nombre}</span>
+                </h3>
+
+                <div class="flex items-center gap-3 text-xs text-slate-400 flex-wrap">
+                  ${evt.lugar ? `
+                    <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(evt.lugar)}" target="_blank" class="flex items-center gap-1 text-indigo-300 hover:underline" title="Abrir en Google Maps">
+                      <i data-lucide="map-pin" class="w-3.5 h-3.5 text-rose-400"></i>
+                      <span>${evt.lugar}</span>
+                    </a>
+                  ` : ''}
+                  ${Number(evt.costo_viaje) > 0 ? `
+                    <span class="flex items-center gap-1 text-emerald-400 font-semibold">
+                      <i data-lucide="car" class="w-3.5 h-3.5"></i>
+                      <span>Viáticos: ${formatMoney(evt.costo_viaje)}</span>
+                    </span>
+                  ` : ''}
+                </div>
+
+                ${evt.descripcion ? `
+                  <p class="text-xs text-slate-300 bg-slate-950 p-2.5 rounded-xl border border-slate-800/80 mt-2">
+                    ${evt.descripcion}
+                  </p>
+                ` : ''}
+              </div>
+
+              <div class="flex items-center gap-2 self-end md:self-center">
+                <button onclick="App.toggleEventStatus('${evt.id}')" class="px-3 py-1.5 rounded-xl ${isCompleted ? 'bg-slate-800 text-slate-300' : 'bg-emerald-600 hover:bg-emerald-500 text-white font-bold'} text-xs flex items-center gap-1.5 transition-all shadow-md">
+                  <i data-lucide="${isCompleted ? 'rotate-ccw' : 'check'}" class="w-3.5 h-3.5"></i>
+                  <span>${isCompleted ? 'Reabrir' : 'Filmado'}</span>
+                </button>
+                <button onclick="App.openNewEventModal('${evt.id}')" class="p-2 rounded-xl bg-slate-950 text-slate-400 hover:text-white border border-slate-800 transition-colors" title="Editar">
+                  <i data-lucide="edit-2" class="w-3.5 h-3.5"></i>
+                </button>
+                <button onclick="App.deleteEvent('${evt.id}')" class="p-2 rounded-xl bg-slate-950 text-slate-400 hover:text-rose-400 border border-slate-800 transition-colors" title="Eliminar">
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        renderIcons();
+      },
+
+      renderDashboardAgendaPreview() {
+        const list = document.getElementById('dashUpcomingEventsList');
+        if (!list) return;
+
+        const pendingEvents = State.agendaEvents.filter(e => e.estado === 'Pendiente');
+        pendingEvents.sort((a, b) => (a.fecha + ' ' + (a.hora || '')) > (b.fecha + ' ' + (b.hora || '')) ? 1 : -1);
+        const top3 = pendingEvents.slice(0, 3);
+
+        if (top3.length === 0) {
+          list.innerHTML = `
+            <div class="col-span-full text-center py-5 bg-slate-950/60 rounded-xl border border-slate-800 text-slate-500 text-xs">
+              <p>No hay rodajes pendientes agendados próximamente.</p>
+            </div>
+          `;
+          renderIcons();
+          return;
+        }
+
+        const todayStr = new Date().toISOString().slice(0, 10);
+
+        list.innerHTML = top3.map(evt => {
+          const isToday = evt.fecha === todayStr;
+          return `
+            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-white">${evt.fecha} • ${evt.hora || 'Sin hora'}</span>
+                ${isToday ? '<span class="text-[9px] px-1.5 py-0.2 rounded font-bold bg-rose-500/20 text-rose-400 animate-pulse">¡HOY!</span>' : ''}
+              </div>
+              <div class="font-bold text-xs text-indigo-300 truncate">${evt.cliente_nombre}</div>
+              <div class="text-[11px] text-slate-400 flex items-center justify-between">
+                <span class="truncate">${evt.lugar || 'En locación'}</span>
+                ${Number(evt.costo_viaje) > 0 ? `<span class="text-emerald-400 font-semibold">${formatMoney(evt.costo_viaje)}</span>` : ''}
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        renderIcons();
+      },
+
+      openNewEventModal(editId = null) {
+        document.getElementById('eventForm').reset();
+        document.getElementById('eventEditId').value = editId || '';
+        document.getElementById('eventCollisionBox').classList.add('hidden');
+        document.getElementById('eventCollisionConfirmCheckbox').checked = false;
+
+        // Populate client dropdown
+        const select = document.getElementById('eventFormClienteSelect');
+        select.innerHTML = '<option value="">-- Seleccionar cliente habitual o escribir nuevo --</option>' +
+          State.clients.map(c => `<option value="${c.nombre}">${c.nombre} (${c.unidad_negocio})</option>`).join('');
+
+        if (editId) {
+          const evt = State.agendaEvents.find(e => e.id === editId);
+          if (evt) {
+            document.getElementById('eventModalTitle').innerHTML = '<i data-lucide="edit" class="w-5 h-5 text-indigo-400"></i><span>Editar Rodaje / Evento</span>';
+            document.getElementById('eventFormClienteNombre').value = evt.cliente_nombre;
+            document.getElementById('eventFormFecha').value = evt.fecha;
+            document.getElementById('eventFormHora').value = evt.hora || '16:00';
+            document.getElementById('eventFormLugar').value = evt.lugar || '';
+            document.getElementById('eventFormCostoViaje').value = evt.costo_viaje || 0;
+            document.getElementById('eventFormDescripcion').value = evt.descripcion || '';
+            document.getElementById('eventFormEstado').value = evt.estado || 'Pendiente';
+          }
+        } else {
+          document.getElementById('eventModalTitle').innerHTML = '<i data-lucide="calendar" class="w-5 h-5 text-indigo-400"></i><span>Agendar Rodaje / Evento</span>';
+          document.getElementById('eventFormFecha').value = new Date().toISOString().slice(0, 10);
+        }
+
+        document.getElementById('eventModal').classList.remove('hidden');
+        document.getElementById('eventModal').classList.add('flex');
+        App.checkEventCollision();
+        renderIcons();
+      },
+
+      closeEventModal() {
+        document.getElementById('eventModal').classList.add('hidden');
+        document.getElementById('eventModal').classList.remove('flex');
+      },
+
+      onEventClienteChange() {
+        const sel = document.getElementById('eventFormClienteSelect');
+        if (sel.value) {
+          document.getElementById('eventFormClienteNombre').value = sel.value;
+        }
+      },
+
+      checkEventCollision() {
+        const fecha = document.getElementById('eventFormFecha').value;
+        const editId = document.getElementById('eventEditId').value;
+        const box = document.getElementById('eventCollisionBox');
+        const text = document.getElementById('eventCollisionText');
+
+        if (!fecha) {
+          box.classList.add('hidden');
+          return;
+        }
+
+        const collision = State.agendaEvents.filter(e => e.fecha === fecha && e.id !== editId && e.estado !== 'Cancelado');
+
+        if (collision.length > 0) {
+          box.classList.remove('hidden');
+          const details = collision.map(e => `<b>${e.cliente_nombre}</b> (${e.hora || 'Sin hora'} hs en ${e.lugar || 'Locación'})`).join(', ');
+          text.innerHTML = `⚠️ Ya tienes un evento registrado este día: ${details}.`;
+        } else {
+          box.classList.add('hidden');
+        }
+      },
+
+      handleSaveEvent(e) {
+        e.preventDefault();
+        const editId = document.getElementById('eventEditId').value;
+        const fecha = document.getElementById('eventFormFecha').value;
+        const hora = document.getElementById('eventFormHora').value;
+        const cliente_nombre = document.getElementById('eventFormClienteNombre').value.trim();
+        const lugar = document.getElementById('eventFormLugar').value.trim();
+        const costo_viaje = Number(document.getElementById('eventFormCostoViaje').value) || 0;
+        const descripcion = document.getElementById('eventFormDescripcion').value.trim();
+        const estado = document.getElementById('eventFormEstado').value;
+
+        // Collision Check verification
+        const collision = State.agendaEvents.filter(ev => ev.fecha === fecha && ev.id !== editId && ev.estado !== 'Cancelado');
+        const confirmCheckbox = document.getElementById('eventCollisionConfirmCheckbox');
+
+        if (collision.length > 0 && !confirmCheckbox.checked) {
+          showToast('⚠️ Hay superposición de eventos. Por favor confirmá marcando la casilla roja para guardar.', 'warning');
+          return;
+        }
+
+        if (editId) {
+          const index = State.agendaEvents.findIndex(ev => ev.id === editId);
+          if (index !== -1) {
+            State.agendaEvents[index] = {
+              ...State.agendaEvents[index],
+              fecha,
+              hora,
+              cliente_nombre,
+              lugar,
+              costo_viaje,
+              descripcion,
+              estado
+            };
+            showToast('Rodaje actualizado con éxito', 'success');
+          }
+        } else {
+          const newEvent = {
+            id: 'evt_' + Date.now(),
+            fecha,
+            hora,
+            cliente_nombre,
+            lugar,
+            costo_viaje,
+            descripcion,
+            estado
+          };
+          State.agendaEvents.unshift(newEvent);
+          showToast('¡Rodaje agendado exitosamente!', 'success');
+        }
+
+        localStorage.setItem(CONFIG.AGENDA_STORAGE_KEY, JSON.stringify(State.agendaEvents));
+        App.closeEventModal();
+        App.renderAgenda();
+        App.renderDashboardAgendaPreview();
+      },
+
+      deleteEvent(id) {
+        if (!confirm('¿Eliminar este evento de tu agenda?')) return;
+        State.agendaEvents = State.agendaEvents.filter(e => e.id !== id);
+        localStorage.setItem(CONFIG.AGENDA_STORAGE_KEY, JSON.stringify(State.agendaEvents));
+        showToast('Evento eliminado', 'info');
+        App.renderAgenda();
+        App.renderDashboardAgendaPreview();
+      },
+
+      toggleEventStatus(id) {
+        const evt = State.agendaEvents.find(e => e.id === id);
+        if (!evt) return;
+        evt.estado = evt.estado === 'Realizado' ? 'Pendiente' : 'Realizado';
+        localStorage.setItem(CONFIG.AGENDA_STORAGE_KEY, JSON.stringify(State.agendaEvents));
+        showToast(`Estado cambiado a ${evt.estado}`, 'success');
+        App.renderAgenda();
+        App.renderDashboardAgendaPreview();
+      },
+
+      setAgendaFilter(filter) {
+        State.agendaFilter = filter;
+        ['Todos', 'Pendiente', 'Realizado'].forEach(f => {
+          const btn = document.getElementById('agendaFilter' + f);
+          if (btn) {
+            if (f === filter) {
+              btn.className = 'px-3 py-1 rounded-lg text-xs font-semibold bg-indigo-600 text-white';
+            } else {
+              btn.className = 'px-3 py-1 rounded-lg text-xs font-medium bg-slate-900 text-slate-400 hover:text-white';
+            }
+          }
+        });
+        App.renderAgenda();
+      },
+
+      // --- MÓDULO RENTABILIDAD & FINANZAS (VALOR HORA Y GASTOS FIJOS) ---
+      loadFinanzasSettings() {
+        try {
+          const stored = localStorage.getItem(CONFIG.FINANZAS_STORAGE_KEY);
+          if (stored) {
+            State.finanzas = JSON.parse(stored);
+          } else {
+            State.finanzas = { valorHora: 10000, gastosFijos: 120000 };
+          }
+        } catch (e) {
+          State.finanzas = { valorHora: 10000, gastosFijos: 120000 };
+        }
+      },
+
+      populateFinanzasForm() {
+        const vh = document.getElementById('settingValorHora');
+        const gf = document.getElementById('settingGastosFijos');
+        if (vh) vh.value = State.finanzas.valorHora || 10000;
+        if (gf) gf.value = State.finanzas.gastosFijos || 120000;
+      },
+
+      handleSaveFinanzas(e) {
+        e.preventDefault();
+        const valorHora = Number(document.getElementById('settingValorHora').value) || 0;
+        const gastosFijos = Number(document.getElementById('settingGastosFijos').value) || 0;
+
+        State.finanzas = { valorHora, gastosFijos };
+        localStorage.setItem(CONFIG.FINANZAS_STORAGE_KEY, JSON.stringify(State.finanzas));
+
+        showToast('¡Parámetros financieros guardados!', 'success');
+        App.renderDashboard();
+      },
+
+      // --- MÓDULO 9: AJUSTES & CAMBIAR PIN (PERSISTENCIA Y SEGURIDAD) ---
       handleChangePin(e) {
         e.preventDefault();
-        const currentPin = document.getElementById('currentPinInput').value;
-        const newPin = document.getElementById('newPinInput').value;
+        const currentPin = (document.getElementById('currentPinInput').value || '').trim();
+        const newPin = (document.getElementById('newPinInput').value || '').trim();
 
         if (currentPin !== Auth.getStoredPin()) {
           showToast('El PIN actual no coincide', 'error');
@@ -3229,12 +4526,12 @@
         }
 
         if (newPin.length !== 4 || isNaN(newPin)) {
-          showToast('El nuevo PIN debe tener exactamente 4 dígitos', 'warning');
+          showToast('El nuevo PIN debe tener exactamente 4 dígitos numéricos', 'warning');
           return;
         }
 
         Auth.setStoredPin(newPin);
-        showToast('PIN actualizado con éxito', 'success');
+        showToast('¡PIN actualizado y guardado correctamente!', 'success');
         document.getElementById('changePinForm').reset();
       },
 
@@ -3943,9 +5240,11 @@
           return;
         }
 
-        btn.disabled = true;
-        btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i><span>Cargando datos...</span>';
-        statusMsg.classList.remove('hidden');
+        if (btn) {
+          btn.disabled = true;
+          btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i><span>Cargando datos...</span>';
+        }
+        if (statusMsg) statusMsg.classList.remove('hidden');
         statusMsg.textContent = 'Verificando tablas en Supabase...';
 
         try {
@@ -4098,12 +5397,16 @@
           await App.fetchAllData();
         } catch (error) {
           console.error('Seed error:', error);
-          statusMsg.textContent = 'Error durante la carga: ' + error.message;
-          statusMsg.className = 'mt-4 text-xs font-bold text-rose-400';
+          if (statusMsg) {
+            statusMsg.textContent = 'Error durante la carga: ' + error.message;
+            statusMsg.className = 'mt-4 text-xs font-bold text-rose-400';
+          }
           showToast('Error al sembrar datos: ' + error.message, 'error');
         } finally {
-          btn.disabled = false;
-          btn.innerHTML = '<i data-lucide="play" class="w-4 h-4 fill-white"></i><span>Cargar Datos Iniciales (Seed)</span>';
+          if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = '<i data-lucide="play" class="w-4 h-4 fill-white"></i><span>Cargar Datos Iniciales (Seed)</span>';
+          }
           renderIcons();
         }
       }
